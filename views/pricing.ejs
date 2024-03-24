@@ -1,0 +1,12 @@
+<section class="pricing">
+  <div class="container">
+    <% plans.forEach(plan => { %>
+    <div class="card">
+      <h1><%= plan.name %> Plan</h1>
+      <h2><%= plan.price %>/<span><%= plan.period %></span></h2>
+      <p><%= plan.description %></p>
+      <a href="/checkout/plan<%= plan.id %>" class="button">Purchase</a>
+    </div>
+    <% }) %>
+  </div>
+</section>

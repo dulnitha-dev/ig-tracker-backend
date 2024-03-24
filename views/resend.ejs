@@ -1,0 +1,22 @@
+<section class="resend">
+  <div class="container">
+    <div class="card">
+      <form id="form">
+        <input type="email" id="email" placeholder="Enter your email..." />
+        <button class="button">Resend Token</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="/script.js"></script>
+
+<script>
+  const form = document.getElementById("form");
+  const input = document.getElementById("email");
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    redirectUrl("/token/resend", JSON.stringify({ email: input.value }));
+  };
+</script>

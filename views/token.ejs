@@ -1,0 +1,8 @@
+<section class="token">
+  <div class="container">
+    <div class="card">
+      <h1><%= token.token %></h1>
+      <p>This token will expire on <%= new Date(token.expire).toLocaleDateString() %></p>
+    </div>
+  </div>
+</section>

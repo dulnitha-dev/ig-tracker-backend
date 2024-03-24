@@ -20,20 +20,42 @@ body {
 }
 a {
   display: inline-block;
+  color: inherit;
   text-decoration: none;
   transition: 0.3s;
+}
+a:hover {
+  text-decoration: underline;
 }
 .button {
   font-family: "Poppins", sans-serif;
   background-color: #f2f2f2;
   color: #111111;
+  outline: none;
+  border: none;
   padding: 10px 18px;
+  text-decoration: none;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
 }
 .button:hover {
-  transform: translateY(-6px);
+  text-decoration: none;
+  color: #f2f2f2;
+  background-color: #f2f2f220;
+}
+input {
+  outline: none;
+  border: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: "Roboto Mono", sans-serif;
+}
+section {
+  height: 100%;
+  padding: 0 100px;
+  display: flex;
+  align-items: center;
 }
 .container {
   width: 100%;
@@ -41,65 +63,85 @@ a {
   align-items: center;
   justify-content: space-between;
 }
+section .container {
+  justify-content: center;
+}
+form {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+form input {
+  width: 300px;
+}
+form button {
+  margin: 0;
+}
 
 /* ========== Header ========== */
 
 header {
   padding: 50px 100px;
   user-select: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
-.logo {
+header .logo {
   color: inherit;
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
-.logo img {
+header .logo img {
   width: 28px;
   margin-right: 4px;
 }
-.logo span {
+header .logo span {
   font-size: 18px;
   font-weight: normal;
 }
-
-/* ========== Section ========== */
-
-section {
-  height: 100%;
-  padding: 0 100px;
+header .right {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
-section .text,
-section .image {
+
+/* ========== Hero ========== */
+
+.hero .text,
+.hero .image {
   width: 50%;
 }
-section .text {
+.hero .text {
   z-index: 2;
 }
-section .text h2 {
+.hero .text h2 {
   font-size: 36px;
   font-weight: normal;
 }
-section .text .button {
+.hero .text .button {
   margin-top: 20px;
   padding: 20px 26px;
   display: flex;
   align-items: center;
   width: fit-content;
 }
-section .text .button img {
+.hero .text .button img {
   width: 32px;
   margin-right: 10px;
+  transition: 0.3s;
 }
-section .text .button span {
+.hero .text .button:hover img {
+  filter: invert(1);
+}
+.hero .text .button span {
   font-size: 20px;
 }
-section .image img {
+.hero .image img {
   position: relative;
   right: 100px;
   width: calc(100% + 100px);
-  /* width: 100%; */
 }
 
 /* ========== Footer ========== */
@@ -109,4 +151,88 @@ footer {
   font-size: 14px;
   position: fixed;
   bottom: 0;
+}
+
+/* ========== Checkout ========== */
+
+.checkout .card {
+  text-align: center;
+  background-color: #fff1;
+  padding: 80px;
+}
+.checkout .card h1 {
+  font-size: 32px;
+}
+.checkout .card h2 {
+  font-size: 26px;
+  margin: 20px 0;
+}
+.checkout .card a {
+  margin: 20px 0;
+}
+.checkout .card p {
+  margin-top: 20px;
+}
+
+/* ========== Pricing ========== */
+
+.pricing .container {
+  gap: 40px;
+}
+.pricing .card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff1;
+  padding: 20px;
+}
+.pricing .card h1 {
+  font-size: 28px;
+}
+.pricing .card h2 {
+  font-size: 22px;
+}
+.pricing .card h2 span {
+  font-size: 18px;
+}
+
+/* ========== Token ========== */
+
+.token .card {
+  text-align: center;
+}
+.token .card p {
+  margin-top: 20px;
+}
+
+/* ========== Responsive ========== */
+
+@media screen and (max-width: 900px) {
+  header {
+    padding: 50px 50px;
+  }
+  section {
+    padding: 0 50px;
+  }
+  footer {
+    padding: 50px 50px;
+  }
+
+  .hero .container {
+    justify-content: start;
+  }
+  .hero .image {
+    display: none !important;
+  }
+  .hero .text {
+    width: 100%;
+  }
+  .hero .text h2 {
+    font-size: 6vw;
+  }
+
+  .pricing .container {
+    flex-wrap: wrap;
+  }
 }

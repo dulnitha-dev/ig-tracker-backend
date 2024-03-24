@@ -1,0 +1,48 @@
+<section class="checkout">
+  <div class="container">
+    <div class="card">
+      <% if (token) { %>
+      <p>You already have a valid token</p>
+      <a href="/token/resend">Resend Token</a>
+      <span id="token"></span>
+      <% } %>
+
+      <span hidden id="plan-id"><%= plan.id %></span>
+      <h1><%= plan.name %> Plan</h1>
+      <h2><%= plan.price %><span>/<%= plan.period %></span></h2>
+      <form id="form">
+        <input type="email" id="email" placeholder="Enter your email..." />
+        <button class="button">
+          <% if (token) { %>
+          <span>Checkout Anyway</span>
+          <% } else { %>
+          <span>Checkout</span>
+          <% } %>
+        </button>
+      </form>
+      <p>You will receive a token to this email</p>
+    </div>
+  </div>
+</section>
+
+<script src="/script.js"></script>
+
+<script>
+  const form = document.getElementById("form");
+  const input = document.getElementById("email");
+  const planId = document.getElementById("plan-id");
+
+  const tokenExists = document.getElementById("token") ? true : false;
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    redirectUrl(
+      "/checkout",
+      JSON.stringify({
+        planId: planId.innerText,
+        email: input.value,
+        force: tokenExists,
+      })
+    );
+  };
+</script>
