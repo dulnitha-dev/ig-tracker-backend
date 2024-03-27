@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
+const flash = require("express-flash");
 require("dotenv").config();
 
 const checkout = require("./routes/checkout");
@@ -26,6 +27,7 @@ app.use(
     resave: true,
   })
 );
+app.use(flash());
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage" });
@@ -41,6 +43,10 @@ app.use("/token", token);
 
 app.get("/plans", (req, res) => {
   res.json(planDetails);
+});
+
+app.use((req, res, next) => {
+  res.status(404).render("404", { title: "Page Not Found" });
 });
 
 app.listen(process.env.PORT, () => {

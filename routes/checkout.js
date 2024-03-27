@@ -7,7 +7,7 @@ const { insertToken, findToken, updateToken } = require("../utils/dbActions");
 
 router.get("/plan:id", (req, res) => {
   const plan = planDetails[req.params.id - 1];
-  res.render("checkout", { title: "Checkout", plan: plan, token: req.session.token });
+  res.render("checkout", { title: "Checkout", plan: plan, token: req.flash("token")[0] || false });
 });
 
 router.post("/", async (req, res) => {
@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
   const tokenDoc = tokenDocs.length && tokenDocs[0];
 
   if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date() && req.body.force == false) {
-    req.session.token = true;
+    req.flash("token", true);
     res.json({});
     return;
   }
@@ -55,7 +55,7 @@ router.get("/sucess", async (req, res) => {
   const tokenDoc = tokenDocs.length && tokenDocs[0];
 
   if (!tokenDoc) {
-    res.status(404).send();
+    res.status(404).render("404", { title: "Page Not Found" });
     return;
   }
 

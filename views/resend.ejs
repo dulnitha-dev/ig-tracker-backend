@@ -1,22 +1,37 @@
-<section class="resend">
-  <div class="container">
-    <div class="card">
-      <form id="form">
-        <input type="email" id="email" placeholder="Enter your email..." />
-        <button class="button">Resend Token</button>
-      </form>
+<section class="m-0 p-4 h-screen bg-blue-600" id="checkout">
+  <div class="container h-full">
+    <div class="flex items-center justify-center w-full h-full">
+      <div class="p-10 w-full max-w-xl text-center bg-white dark:bg-slate-900">
+        <% if (msg) { %>
+        <p class="<%= msg.type %>"><%= msg.message %></p>
+        <% } %>
+        <form class="my-6" id="form">
+          <div class="mb-2 w-full">
+            <input type="email" class="w-full" id="email" placeholder="Enter your email..." />
+          </div>
+          <button class="button bg-emerald-500 w-full">Resend Token</button>
+        </form>
+      </div>
     </div>
   </div>
 </section>
 
-<script src="/script.js"></script>
-
 <script>
-  const form = document.getElementById("form");
-  const input = document.getElementById("email");
-
-  form.onsubmit = async (e) => {
-    e.preventDefault();
-    redirectUrl("/token/resend", JSON.stringify({ email: input.value }));
+  const redirectUrl = async (url, body) => {
+    console.log("Fetching...");
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body,
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.url) window.location.href = data.url;
+    else window.location.reload();
   };
+
+  $("#form").submit((e) => {
+    e.preventDefault();
+    redirectUrl("/token/resend", JSON.stringify({ email: $("#email").val() }));
+  });
 </script>

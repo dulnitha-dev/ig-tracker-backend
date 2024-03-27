@@ -1,48 +1,60 @@
-<section class="checkout">
-  <div class="container">
-    <div class="card">
-      <% if (token) { %>
-      <p>You already have a valid token</p>
-      <a href="/token/resend">Resend Token</a>
-      <span id="token"></span>
-      <% } %>
+<section class="m-0 p-4 h-screen bg-blue-600" id="checkout">
+  <div class="container h-full">
+    <div class="flex items-center justify-center w-full h-full">
+      <div class="p-10 w-full max-w-xl text-center bg-white dark:bg-slate-900">
+        <% if (token) { %>
+        <p class="mb-1 text-red-500">You already have a valid token</p>
+        <a href="/token/resend" class="hover:underline">Resend Token</a>
+        <span hidden id="token"></span>
+        <% } %>
+        <span hidden id="plan-id"><%= plan.id %></span>
 
-      <span hidden id="plan-id"><%= plan.id %></span>
-      <h1><%= plan.name %> Plan</h1>
-      <h2><%= plan.price %><span>/<%= plan.period %></span></h2>
-      <form id="form">
-        <input type="email" id="email" placeholder="Enter your email..." />
-        <button class="button">
-          <% if (token) { %>
-          <span>Checkout Anyway</span>
-          <% } else { %>
-          <span>Checkout</span>
-          <% } %>
-        </button>
-      </form>
-      <p>You will receive a token to this email</p>
+        <h1 class="mt-6 mb-1 text-2xl font-semibold"><%= plan.name %> Plan</h1>
+        <h2 class="text-xl font-normal">
+          <%= plan.price %>
+          <span>/<%= plan.period %></span>
+        </h2>
+        <form class="my-6" id="form">
+          <div class="mb-2 w-full">
+            <input type="email" class="w-full" id="email" placeholder="Enter your email..." />
+          </div>
+          <button class="button bg-emerald-500 w-full">
+            <% if (token) { %>
+            <span>Checkout Anyway</span>
+            <% } else { %>
+            <span>Checkout</span>
+            <% } %>
+          </button>
+        </form>
+        <p class="text-base text-gray-600 dark:text-gray-400">You will receive a token to this email</p>
+      </div>
     </div>
   </div>
 </section>
 
-<script src="/script.js"></script>
-
 <script>
-  const form = document.getElementById("form");
-  const input = document.getElementById("email");
-  const planId = document.getElementById("plan-id");
+  const redirectUrl = async (url, body) => {
+    console.log("Fetching...");
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body,
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.url) window.location.href = data.url;
+    else window.location.reload();
+  };
 
-  const tokenExists = document.getElementById("token") ? true : false;
-
-  form.onsubmit = async (e) => {
+  $("#form").submit((e) => {
     e.preventDefault();
     redirectUrl(
       "/checkout",
       JSON.stringify({
-        planId: planId.innerText,
-        email: input.value,
-        force: tokenExists,
+        planId: $("#plan-id").text(),
+        email: $("#email").val(),
+        force: $("token").length === 1,
       })
     );
-  };
+  });
 </script>
