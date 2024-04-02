@@ -13,8 +13,8 @@ const createInvoice = async (email, amount) => {
     description: "", // Description
     source_currency: currency,
     source_amount: amount,
-    callback_url: baseUrl + "/checkout/callback",
-    success_callback_url: baseUrl + "/checkout/success",
+    callback_url: baseUrl + "/checkout/callback?json=true",
+    success_callback_url: baseUrl + "/checkout/success?json=true",
     fail_callback_url: baseUrl,
     email: email,
     api_key: process.env.API_KEY,

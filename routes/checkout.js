@@ -51,6 +51,7 @@ router.all("/callback", async (req, res) => {
   console.log("Callback:", req);
   console.log("Callback body:", req.body);
   console.log("Callback params:", req.params);
+  console.log("Callback query:", req.query);
 
   res.send("Callback");
 });
