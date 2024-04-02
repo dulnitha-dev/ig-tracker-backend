@@ -2,7 +2,7 @@ const router = require("express").Router();
 const uuid = require("uuid");
 
 const planDetails = require("../utils/planDetails");
-const paymentApi = require("../utils/paymentApi");
+const createInvoice = require("../utils/paymentApi");
 const { insertToken, findToken, updateToken } = require("../utils/dbActions");
 
 router.get("/plan:id", (req, res) => {
@@ -22,19 +22,20 @@ router.post("/", async (req, res) => {
     return;
   }
 
-  // Create Invoice
-  sucessUrl = "checkout/sucess?email=";
+  req.session.email = req.body.email;
 
-  res.json({ url: "pay" });
+  const response = await createInvoice(req.body.email, plan.price);
+  console.log("Response:-", response);
+  res.json({ url: response.data.invoice_url });
 });
 
-router.get("/callback", async (req, res) => {
+router.all("/callback", async (req, res) => {
+  console.log("Callback Received");
   const validMonths = 3;
-  const email = "dul@gmail.com";
+  const email = req.session.email;
 
-  if (true) {
+  if (false) {
     const date = new Date();
-
     const tokenDoc = {
       token: uuid.v4(),
       email: email,
@@ -46,6 +47,11 @@ router.get("/callback", async (req, res) => {
 
     const footprint = await insertToken(tokenDoc);
   }
+
+  console.log("Callback:", req);
+  console.log("Callback body:", req.body);
+  console.log("Callback params:", req.params);
+
   res.send("Callback");
 });
 

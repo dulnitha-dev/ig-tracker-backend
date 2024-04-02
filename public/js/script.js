@@ -9,7 +9,6 @@
   /* ====  Responsive Navbar ==== */
   $("#navbar-toggler").click((e) => {
     $("#navbar-collapse").toggleClass("show");
-    console.log($("#navbar-collapse").attr("class"));
   });
 
   /* ====  Nav Links ==== */
