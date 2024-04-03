@@ -51,11 +51,12 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const [invoiceDoc] = (await findInvoice({ order_number: data.order_number })) || [];
   console.log("invoiceDoc:", invoiceDoc);
   const newInvoiceDoc = { ...invoiceDoc, ...data };
+  delete newInvoiceDoc._id;
   console.log("New invoiceDoc:", newInvoiceDoc);
-  const footprint = await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
+  await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
 
-  if (data.status === "completed" || data.status === "mismatch" || data.status === "expired") {
-    if (data.status === "expired") console.log("Fake success");
+  if (invoiceDoc && (data.status === "completed" || data.status === "mismatch" || data.status === "expired")) {
+    if (data.status === "expired") console.log("Fake success:", data.status);
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
     const orderNum = invoiceDoc.order_number;
