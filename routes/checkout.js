@@ -53,6 +53,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   console.log("New invoiceDoc:", newInvoiceDoc);
   const footprint = await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
+  console.log("footprint:", footprint);
 
   if (data.status === "completed" || data.status === "mismatch" || data.status === "expired") {
     if (data.status === "expired") console.log("Fake success");
