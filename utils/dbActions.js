@@ -43,4 +43,46 @@ const updateToken = async (filter, newDoc) => {
   }
 };
 
-module.exports = { insertToken, findToken, updateToken };
+const insertInvoice = async (data) => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const tokens = await db.collection("invoice");
+    const footprint = await tokens.insertOne(data);
+    return footprint;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+};
+
+const findInvoice = async (filter) => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const tokens = await db.collection("invoice");
+    const result = await tokens.find(filter).toArray();
+    return result;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+};
+
+const updateInvoice = async (filter, newDoc) => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const tokens = await db.collection("invoice");
+    const footprint = await tokens.updateOne(filter, { $set: newDoc });
+    return footprint;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+};
+
+module.exports = { insertToken, findToken, updateToken, insertInvoice, findInvoice, updateInvoice };

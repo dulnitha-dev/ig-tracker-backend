@@ -1,0 +1,16 @@
+Callback body: {
+  comment: 'Invoice details: https://plisio.net/account/transactions/660c4bb527ea13849c09e993',
+  currency: 'BTC',
+  ipn_type: 'invoice',
+  merchant: 'IG Tracker',
+  merchant_id: '660b9b02e9263d07120048da',
+  order_name: '0ebec742',
+  order_number: '3a5e2d5a233fd5ddedfee810',
+  psys_cid: 'BTC',
+  source_amount: '5.00',
+  source_currency: 'USD',
+  source_rate: '0.00001522',
+  status: 'expired',
+  txn_id: '660c4bb527ea13849c09e993',
+  verify_hash: '623958dbc05379c1aad66a330050d4f4e4b9d338'
+}
