@@ -1,88 +1,69 @@
 const client = require("../db.config");
 const dbName = "ig-tracker";
 
-const insertToken = async (data) => {
+const connectDB = async () => {
   try {
     await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("tokens");
-    const footprint = await tokens.insertOne(data);
-    return footprint;
+    console.log("Database Connected");
   } catch (error) {
     console.error(error);
-  } finally {
-    await client.close();
   }
+};
+
+const disConnectDB = async () => {
+  await client.close();
+  console.log("Database Disconnected");
+};
+
+const insertToken = async (data) => {
+  const db = client.db(dbName);
+  const tokens = await db.collection("tokens");
+  const footprint = await tokens.insertOne(data);
+  return footprint;
 };
 
 const findToken = async (filter) => {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("tokens");
-    const result = await tokens.find(filter).toArray();
-    return result;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await client.close();
-  }
+  const db = client.db(dbName);
+  const tokens = await db.collection("tokens");
+  const result = await tokens.find(filter).toArray();
+  return result;
 };
 
 const updateToken = async (filter, newDoc) => {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("tokens");
-    const footprint = await tokens.updateOne(filter, { $set: newDoc });
-    return footprint;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await client.close();
-  }
+  const db = client.db(dbName);
+  const tokens = await db.collection("tokens");
+  const footprint = await tokens.updateOne(filter, { $set: newDoc });
+  return footprint;
 };
 
 const insertInvoice = async (data) => {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("invoices");
-    const footprint = await tokens.insertOne(data);
-    return footprint;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await client.close();
-  }
+  const db = client.db(dbName);
+  const tokens = await db.collection("invoices");
+  const footprint = await tokens.insertOne(data);
+  return footprint;
 };
 
 const findInvoice = async (filter) => {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("invoices");
-    const result = await tokens.find(filter).toArray();
-    return result;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await client.close();
-  }
+  const db = client.db(dbName);
+  const tokens = await db.collection("invoices");
+  const result = await tokens.find(filter).toArray();
+  return result;
 };
 
 const updateInvoice = async (filter, newDoc) => {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const tokens = await db.collection("invoices");
-    const footprint = await tokens.updateOne(filter, { $set: newDoc });
-    return footprint;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await client.close();
-  }
+  const db = client.db(dbName);
+  const tokens = await db.collection("invoices");
+  const footprint = await tokens.updateOne(filter, { $set: newDoc });
+  return footprint;
 };
 
-module.exports = { insertToken, findToken, updateToken, insertInvoice, findInvoice, updateInvoice };
+module.exports = {
+  connectDB,
+  disConnectDB,
+  insertToken,
+  findToken,
+  updateToken,
+  insertInvoice,
+  findInvoice,
+  updateInvoice,
+};

@@ -8,6 +8,7 @@ const checkout = require("./routes/checkout");
 const token = require("./routes/token");
 const planDetails = require("./utils/planDetails");
 const createInvoice = require("./utils/paymentApi");
+const { connectDB, disConnectDB } = require("./utils/dbActions");
 
 const app = express();
 
@@ -52,4 +53,5 @@ app.use((req, res, next) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`Running on http://localhost:${process.env.PORT}`);
+  connectDB();
 });
