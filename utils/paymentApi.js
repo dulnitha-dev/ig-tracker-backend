@@ -13,8 +13,8 @@ const createInvoice = async (email, plan) => {
     .digest("hex");
 
   const baseUrl = "https://ig-tracker.cbu.net";
-  const callbackUrl = baseUrl + "/checkout/callback?json=true";
-  const successUrl = baseUrl + `/checkout/success?json=true&email=${email}&csrf=${csrfToken}`;
+  const callbackUrl = `${baseUrl}/checkout/callback?json=true`;
+  const successUrl = `${baseUrl}/checkout/success?json=true&email=${email}&csrf=${csrfToken}`;
 
   const url = "https://api.plisio.net/api/v1/invoices/new";
   const params = {
@@ -25,7 +25,7 @@ const createInvoice = async (email, plan) => {
     source_amount: plan.price,
     callback_url: callbackUrl,
     success_callback_url: successUrl,
-    fail_callback_url: baseUrl, //                              Fail Url
+    fail_callback_url: successUrl, //                              Fail Url
     email: email,
     api_key: process.env.API_KEY,
   };

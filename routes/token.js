@@ -28,7 +28,7 @@ router.post("/resend", async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
-  const [tokenDoc] = await findToken({ token: req.body.token });
+  const [tokenDoc] = (await findToken({ token: req.body.token })) || [];
 
   if (tokenDoc && new Date(tokenDoc.expire) < new Date()) {
     res.json({ valid: true });

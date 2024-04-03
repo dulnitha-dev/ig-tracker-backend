@@ -30,8 +30,6 @@ const verifyCallback = (req, res, next) => {
   const data = req.body;
   const secretKey = process.env.API_KEY;
 
-  console.log("Verifying callback");
-
   if (data && data.verify_hash) {
     const ordered = { ...data };
     delete ordered.verify_hash;
@@ -46,16 +44,17 @@ const verifyCallback = (req, res, next) => {
 
 router.post("/callback", verifyCallback, async (req, res) => {
   const data = req.body;
-  console.log("Callback body:", data);
 
   const [invoiceDoc] = (await findInvoice({ order_number: data.order_number })) || [];
-  console.log("invoiceDoc:", invoiceDoc);
+  console.log("InvoiceDoc:", invoiceDoc);
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
-  console.log("New invoiceDoc:", newInvoiceDoc);
-  await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
 
-  if (invoiceDoc && (data.status === "completed" || data.status === "mismatch" || data.status === "expired")) {
+  if (
+    invoiceDoc &&
+    !invoiceDoc.token &&
+    (data.status === "completed" || data.status === "mismatch" || data.status === "expired")
+  ) {
     if (data.status === "expired") console.log("Fake success:", data.status);
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
@@ -71,7 +70,13 @@ router.post("/callback", verifyCallback, async (req, res) => {
       order_number: orderNum,
     };
     const footprint = await insertToken(tokenDoc);
+
+    newInvoiceDoc.token = tokenDoc.token;
+
+    // Send Email
   }
+  console.log("New InvoiceDoc:", newInvoiceDoc);
+  await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
 });
 
 router.get("/sucess", async (req, res) => {
