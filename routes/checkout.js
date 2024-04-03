@@ -87,10 +87,16 @@ router.get("/sucess", async (req, res) => {
 
   const tokenDocs = (await findToken({ email: req.query.email, viewed: false })) || [];
   tokenDocs.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
+  console.log(tokenDocs);
   const [tokenDoc] = tokenDocs;
+  console.log(tokenDoc);
+  console.log(req.query.csrf);
+  console.log(csrfToken);
+  console.log(req.query.csrf !== csrfToken);
 
   if (!tokenDoc || req.query.csrf !== csrfToken) {
-    res.status(404).render("404", { title: "Page Not Found" });
+    // res.status(404).render("404", { title: "Page Not Found" });
+    res.json({ tokenDoc: tokenDoc, queryCsrf: req.query.csrf, csrfToken: csrfToken });
     return;
   }
 

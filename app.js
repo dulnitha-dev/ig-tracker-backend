@@ -7,7 +7,6 @@ require("dotenv").config();
 const checkout = require("./routes/checkout");
 const token = require("./routes/token");
 const planDetails = require("./utils/planDetails");
-const createInvoice = require("./utils/paymentApi");
 const { connectDB, disConnectDB } = require("./utils/dbActions");
 
 const app = express();
@@ -33,10 +32,6 @@ app.use(flash());
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage" });
-});
-
-app.get("/pricing", (req, res) => {
-  res.render("pricing", { title: "Pricing", plans: planDetails });
 });
 
 app.use("/checkout", checkout);
