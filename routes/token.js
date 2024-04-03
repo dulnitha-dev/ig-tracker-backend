@@ -15,7 +15,7 @@ router.get("/resend", (req, res) => {
 router.post("/resend", async (req, res) => {
   const tokenDocs = (await findToken({ email: req.body.email })) || [];
   tokenDocs.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
-  const tokenDoc = tokenDocs.length && tokenDocs[0];
+  const [tokenDoc] = tokenDocs;
 
   if (tokenDoc && new Date(tokenDoc.expire) > new Date()) {
     // Send Email
@@ -28,8 +28,7 @@ router.post("/resend", async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
-  let tokenDoc = await findToken({ token: req.body.token });
-  if (tokenDoc.length) tokenDoc = tokenDoc[0];
+  const [tokenDoc] = await findToken({ token: req.body.token });
 
   if (tokenDoc && new Date(tokenDoc.expire) < new Date()) {
     res.json({ valid: true });

@@ -4,8 +4,9 @@ const planDetails = [
     name: "Standard",
     price: 5,
     displayPrice: "$4.99",
+    validMonths: 1,
     period: "month",
-    peridoName: "Monthly",
+    periodName: "Monthly",
     description: "Token will expire after a month",
   },
   {
@@ -13,8 +14,9 @@ const planDetails = [
     name: "Premium",
     price: 10,
     displayPrice: "$9.99",
+    validMonths: 3,
     period: "3 months",
-    peridoName: "Quarterly",
+    periodName: "Quarterly",
     description: "Token will expire after 3 months",
   },
   {
@@ -22,8 +24,9 @@ const planDetails = [
     name: "Pro",
     price: 20,
     displayPrice: "$19.99",
+    validMonths: 12,
     period: "1 year",
-    peridoName: "Annual",
+    periodName: "Annual",
     description: "Token will expire after a year",
   },
 ];
