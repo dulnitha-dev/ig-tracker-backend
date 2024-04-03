@@ -9,6 +9,8 @@
         <% } %>
         <span hidden id="plan-id"><%= plan.id %></span>
 
+        <p class="text-base" id="msg">Redirecting to payment page...</p>
+
         <h1 class="mt-6 mb-1 text-2xl font-semibold"><%= plan.name %> Plan</h1>
         <h2 class="text-xl font-normal">
           <%= plan.displayPrice %>
@@ -46,8 +48,12 @@
     else window.location.reload();
   };
 
+  $("#msg").hide();
+
   $("#form").submit((e) => {
     e.preventDefault();
+    $("#msg").show();
+
     redirectUrl(
       "/checkout",
       JSON.stringify({
