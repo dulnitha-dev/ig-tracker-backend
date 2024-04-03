@@ -14,7 +14,7 @@ router.get("/plan:id", (req, res) => {
 router.post("/", async (req, res) => {
   const plan = planDetails[req.body.planId - 1];
 
-  const [tokenDoc] = await findToken({ email: req.body.email });
+  const [tokenDoc] = (await findToken({ email: req.body.email })) || [];
 
   if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date() && req.body.force == false) {
     req.flash("token", true);
@@ -48,8 +48,10 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const data = req.body;
   console.log("Callback body:", data);
 
-  const [invoiceDoc] = await findInvoice({ order_number: data.order_number });
+  const [invoiceDoc] = (await findInvoice({ order_number: data.order_number })) || [];
+  console.log("invoiceDoc:", invoiceDoc);
   const newInvoiceDoc = { ...invoiceDoc, ...data };
+  console.log("New invoiceDoc:", newInvoiceDoc);
   const footprint = await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
 
   if (data.status === "completed" || data.status === "mismatch" || data.status === "expired") {
