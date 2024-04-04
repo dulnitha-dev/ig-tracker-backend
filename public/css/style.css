@@ -719,11 +719,6 @@ input:focus{
   margin-bottom: 1.5rem;
 }
 
-.my-4{
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
 .mb-1{
   margin-bottom: 0.25rem;
 }
@@ -734,6 +729,10 @@ input:focus{
 
 .mb-2{
   margin-bottom: 0.5rem;
+}
+
+.mb-3{
+  margin-bottom: 0.75rem;
 }
 
 .mb-4{
@@ -780,12 +779,8 @@ input:focus{
   margin-top: 1px;
 }
 
-.mb-3{
-  margin-bottom: 0.75rem;
-}
-
-.mb-8{
-  margin-bottom: 2rem;
+.block{
+  display: block;
 }
 
 .inline-block{
@@ -836,33 +831,17 @@ input:focus{
   width: 50px;
 }
 
+.w-fit{
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-full{
   width: 100%;
 }
 
 .w-px{
   width: 1px;
-}
-
-.w-10{
-  width: 2.5rem;
-}
-
-.w-20{
-  width: 5rem;
-}
-
-.w-32{
-  width: 8rem;
-}
-
-.w-40{
-  width: 10rem;
-}
-
-.w-fit{
-  width: -moz-fit-content;
-  width: fit-content;
 }
 
 .max-w-\[515px\]{
@@ -1004,16 +983,6 @@ input:focus{
   background-color: rgb(255 255 255 / 0.5);
 }
 
-.bg-red-600{
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
-}
-
-.bg-green-600{
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
-}
-
 .p-10{
   padding: 2.5rem;
 }
@@ -1061,11 +1030,6 @@ input:focus{
   padding-bottom: 1.5rem;
 }
 
-.px-7{
-  padding-left: 1.75rem;
-  padding-right: 1.75rem;
-}
-
 .pt-\[120px\]{
   padding-top: 120px;
 }
@@ -1076,14 +1040,6 @@ input:focus{
 
 .text-start{
   text-align: start;
-}
-
-.font-sans{
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-.font-serif{
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 .font-mono{
@@ -1103,6 +1059,11 @@ input:focus{
 .text-4xl{
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-9xl{
+  font-size: 8rem;
+  line-height: 1;
 }
 
 .text-base{
@@ -1125,19 +1086,8 @@ input:focus{
   line-height: 1.75rem;
 }
 
-.text-5xl{
-  font-size: 3rem;
-  line-height: 1;
-}
-
-.text-6xl{
-  font-size: 3.75rem;
-  line-height: 1;
-}
-
-.text-9xl{
-  font-size: 8rem;
-  line-height: 1;
+.font-black{
+  font-weight: 900;
 }
 
 .font-bold{
@@ -1154,14 +1104,6 @@ input:focus{
 
 .font-semibold{
   font-weight: 600;
-}
-
-.font-extrabold{
-  font-weight: 800;
-}
-
-.font-black{
-  font-weight: 900;
 }
 
 .leading-loose{

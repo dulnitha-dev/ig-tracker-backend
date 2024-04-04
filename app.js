@@ -30,6 +30,10 @@ app.use(
 );
 app.use(flash());
 
+/*
+FAQ
+*/
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage" });
 });

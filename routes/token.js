@@ -32,6 +32,32 @@ router.post("/resend", async (req, res) => {
   res.json({});
 });
 
+router.post("/create", async (req, res) => {
+  if (req.body.key !== "") {
+    res.status(400).send();
+    return;
+  }
+  const validMonths = req.body.validMonths;
+  const email = req.body.email;
+  const date = new Date();
+
+  const tokenDoc = {
+    token: uuid.v4(),
+    email: email,
+    created: new Date(),
+    expire: date.setMonth(date.getMonth() + validMonths),
+    viewed: false,
+    order_number: null,
+  };
+  await insertToken(tokenDoc);
+
+  await sendEmail("IG Tracker", tokenDoc.email, "IG Tracker Token", "resend", {
+    baseUrl: "https://ig-tracker.cbu.net/",
+    tokenDoc: tokenDoc,
+  });
+  res.json(tokenDoc);
+});
+
 router.post("/verify", async (req, res) => {
   const [tokenDoc] = (await findToken({ token: req.body.token })) || [];
 

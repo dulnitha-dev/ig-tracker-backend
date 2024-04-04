@@ -50,12 +50,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
 
-  if (
-    invoiceDoc &&
-    !invoiceDoc.token &&
-    (data.status === "completed" || data.status === "mismatch" || data.status === "expired")
-  ) {
-    if (data.status === "expired") console.log("Fake success:", data.status); // Remove
+  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch")) {
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
     const orderNum = invoiceDoc.order_number;
@@ -80,6 +75,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
   }
   console.log("New InvoiceDoc:", newInvoiceDoc);
   await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
+  res.status(200).send();
 });
 
 router.get("/success", async (req, res) => {

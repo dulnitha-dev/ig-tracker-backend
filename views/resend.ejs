@@ -5,6 +5,8 @@
         <% if (msg) { %>
         <p class="<%= msg.type %>"><%= msg.message %></p>
         <% } %>
+
+        <h1 class="mt-6 mb-1 text-2xl font-semibold">Resend Email</h1>
         <form class="my-6" id="form">
           <div class="mb-2 w-full">
             <input type="email" class="w-full" id="email" placeholder="Enter your email..." />

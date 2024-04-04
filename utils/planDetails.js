@@ -2,7 +2,7 @@ const planDetails = [
   {
     id: 1,
     name: "Standard",
-    price: 5,
+    price: 0.01,
     displayPrice: "$4.99",
     validMonths: 1,
     period: "month",
@@ -12,7 +12,7 @@ const planDetails = [
   {
     id: 2,
     name: "Premium",
-    price: 10,
+    price: 0.03,
     displayPrice: "$9.99",
     validMonths: 3,
     period: "3 months",
@@ -22,7 +22,7 @@ const planDetails = [
   {
     id: 3,
     name: "Pro",
-    price: 20,
+    price: 0.05,
     displayPrice: "$19.99",
     validMonths: 12,
     period: "1 year",
