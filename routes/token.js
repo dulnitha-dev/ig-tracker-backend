@@ -1,11 +1,12 @@
 const router = require("express").Router();
 
 const { findToken } = require("../utils/dbActions");
+const sendEmail = require("../utils/sendEmail");
 
 router.get("/view", async (req, res) => {
   const tokenDoc = req.session.tokenDoc;
   if (tokenDoc) res.render("token", { title: "Token", token: tokenDoc });
-  else res.status(404).render("404", { title: "Page Not Found" });
+  else res.redirect("/");
 });
 
 router.get("/resend", (req, res) => {
@@ -18,7 +19,11 @@ router.post("/resend", async (req, res) => {
   const [tokenDoc] = tokenDocs;
 
   if (tokenDoc && new Date(tokenDoc.expire) > new Date()) {
-    // Send Email
+    await sendEmail("IG Tracker", tokenDoc.email, "IG Tracker Token", "resend", {
+      baseUrl: "https://ig-tracker.cbu.net/",
+      tokenDoc: tokenDoc,
+    });
+
     req.flash("msg", { message: "Check your email", type: "text-green-500" });
   } else {
     req.flash("msg", { message: "You don't have a valid token", type: "text-red-500" });
@@ -30,7 +35,7 @@ router.post("/resend", async (req, res) => {
 router.post("/verify", async (req, res) => {
   const [tokenDoc] = (await findToken({ token: req.body.token })) || [];
 
-  if (tokenDoc && new Date(tokenDoc.expire) < new Date()) {
+  if (tokenDoc && new Date(tokenDoc.expire) > new Date()) {
     res.json({ valid: true });
   } else {
     res.json({ valid: false });

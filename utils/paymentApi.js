@@ -20,12 +20,11 @@ const createInvoice = async (email, plan) => {
   const params = {
     order_number: crypto.randomBytes(12).toString("hex"),
     order_name: plan.name + " Plan",
-    description: "Test Description", //                                  Description
     source_currency: currency,
     source_amount: plan.price,
     callback_url: callbackUrl,
     success_callback_url: successUrl,
-    fail_callback_url: successUrl, //                              Fail Url
+    fail_callback_url: baseUrl,
     email: email,
     api_key: process.env.API_KEY,
   };
