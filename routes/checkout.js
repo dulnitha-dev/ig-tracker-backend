@@ -73,7 +73,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
       tokenDoc: tokenDoc,
     });
   }
-  console.log("New InvoiceDoc:", newInvoiceDoc);
+  console.log("InvoiceDoc:", newInvoiceDoc);
   await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
   res.status(200).send();
 });

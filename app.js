@@ -7,7 +7,7 @@ require("dotenv").config();
 const checkout = require("./routes/checkout");
 const token = require("./routes/token");
 const planDetails = require("./utils/planDetails");
-const { connectDB, disConnectDB } = require("./utils/dbActions");
+const { connectDB } = require("./utils/dbActions");
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: "mysecretkey",
+    secret: process.env.SECRET_KEY,
     saveUninitialized: true,
     resave: true,
   })
@@ -31,7 +31,7 @@ app.use(
 app.use(flash());
 
 /*
-FAQ
+Chat intergration
 */
 
 app.get("/", (req, res) => {

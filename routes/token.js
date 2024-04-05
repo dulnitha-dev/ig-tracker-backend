@@ -33,7 +33,7 @@ router.post("/resend", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  if (req.body.key !== "") {
+  if (req.body.key !== process.env.SECRET_KEY) {
     res.status(400).send();
     return;
   }

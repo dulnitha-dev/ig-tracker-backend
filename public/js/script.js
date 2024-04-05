@@ -18,6 +18,7 @@
       $("html, body")
         .stop()
         .animate({ scrollTop: $(this.hash).offset().top - 100 }, 500);
+      $("#navbar-toggler").click();
     }
   });
 

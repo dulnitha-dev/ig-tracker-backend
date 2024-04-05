@@ -68,7 +68,6 @@
         color: #007bff;
       }
 
-      /* Header Styles */
       .header {
         text-align: center;
         margin-bottom: 30px;
@@ -82,7 +81,6 @@
         width: 100%;
       }
 
-      /* Footer Styles */
       .footer {
         text-align: center;
         margin-top: 30px;
@@ -90,6 +88,36 @@
       .footer p {
         color: #0008;
         font-size: 14px;
+      }
+
+      @media (min-width: 480px) {
+        h1 {
+          font-size: 26px;
+          line-height: 2.1;
+        }
+        h2 {
+          font-size: 24px;
+          line-height: 2;
+        }
+        h3 {
+          font-size: 22px;
+          line-height: 1.9;
+        }
+        h4 {
+          font-size: 20px;
+          line-height: 1.8;
+        }
+        h5 {
+          font-size: 18px;
+          line-height: 1.7;
+        }
+        h6 {
+          font-size: 16px;
+          line-height: 1.6;
+        }
+        p {
+          line-height: 1.6;
+        }
       }
     </style>
   </head>
@@ -111,7 +139,7 @@
           <br />
 
           <p><strong>Your Token:</strong></p>
-          <h5 class="primary"><%= tokenDoc.token %></h5>
+          <h5><%= tokenDoc.token %></h5>
           <p>
             This token will expire on <%= new Date(tokenDoc.expire).toLocaleDateString('en-us', { year:"numeric",
             month:"short", day:"numeric"}) %>
