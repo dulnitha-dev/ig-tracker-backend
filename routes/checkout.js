@@ -50,6 +50,8 @@ const verifyCallback = (req, res, next) => {
   const data = req.body;
   const secretKey = process.env.API_KEY;
 
+  console.log("Verifying callback", data);
+
   if (data && data.verify_hash) {
     const ordered = { ...data };
     delete ordered.verify_hash;
