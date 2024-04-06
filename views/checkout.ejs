@@ -11,14 +11,7 @@
 
     <div class="flex items-center justify-center w-full h-full">
       <div class="p-10 w-full max-w-xl text-center bg-white dark:bg-slate-900">
-        <% if (token) { %>
-        <p class="mb-1 text-red-500">You already have a valid token</p>
-        <a href="/token/resend" class="hover:underline">Resend Token</a>
-        <span hidden id="token"></span>
-        <% } %>
         <span hidden id="plan-id"><%= plan.id %></span>
-
-        <p class="text-base" id="msg">Redirecting to payment page...</p>
 
         <h1 class="mt-6 mb-1 text-2xl font-semibold"><%= plan.name %> Plan</h1>
         <h2 class="text-xl font-normal">
@@ -29,47 +22,27 @@
           <div class="mb-2 w-full">
             <input type="email" class="w-full" id="email" placeholder="Enter your email..." />
           </div>
-          <button class="button bg-emerald-500 w-full">
-            <% if (token) { %>
-            <span>Checkout Anyway</span>
-            <% } else { %>
-            <span>Checkout</span>
-            <% } %>
-          </button>
+          <button class="button bg-emerald-500 w-full">Checkout</button>
         </form>
-        <p class="text-base text-gray-600 dark:text-gray-400">You will receive a token to this email</p>
+        <p class="text-base text-gray-600 dark:text-gray-400" id="msg">Payment link sent to email.</p>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  const redirectUrl = async (url, body) => {
-    console.log("Fetching...");
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: body,
-    });
-    const data = await response.json();
-    console.log(data);
-    if (data.url) window.location.href = data.url;
-    else window.location.reload();
-  };
-
   $("#msg").hide();
 
-  $("#form").submit((e) => {
+  $("#form").submit(async (e) => {
     e.preventDefault();
-    $("#msg").show();
-
-    redirectUrl(
-      "/checkout",
-      JSON.stringify({
+    const response = await fetch("/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         planId: $("#plan-id").text(),
         email: $("#email").val(),
-        force: $("token").length === 1,
-      })
-    );
+      }),
+    });
+    $("#msg").show();
   });
 </script>

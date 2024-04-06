@@ -2,7 +2,7 @@ const planDetails = [
   {
     id: 1,
     name: "Standard",
-    price: 0.1,
+    price: 5,
     displayPrice: "$4.99",
     validMonths: 1,
     period: "month",
@@ -12,7 +12,7 @@ const planDetails = [
   {
     id: 2,
     name: "Premium",
-    price: 0.13,
+    price: 10,
     displayPrice: "$9.99",
     validMonths: 3,
     period: "3 months",
@@ -22,10 +22,10 @@ const planDetails = [
   {
     id: 3,
     name: "Pro",
-    price: 0.15,
+    price: 20,
     displayPrice: "$19.99",
     validMonths: 12,
-    period: "1 year",
+    period: "year",
     periodName: "Annual",
     description: "Token will expire after a year",
   },

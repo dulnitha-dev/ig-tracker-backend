@@ -1,0 +1,34 @@
+<section class="m-0 p-4 h-screen bg-blue-600" id="checkout">
+  <div class="container h-full">
+    <div class="flex items-center justify-center w-full h-full">
+      <!-- <h1 class="text-center text-2xl font-medium">You will be redirected to payment...</h1> -->
+
+      <!-- <div
+        class="inline-block w-10 h-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
+        role="status"></div> -->
+
+      <div class="relative inline-flex">
+        <div class="w-12 aspect-square bg-blue-200 rounded-full"></div>
+        <div class="w-12 aspect-square bg-blue-200 rounded-full absolute top-0 left-0 animate-ping"></div>
+        <div class="w-12 aspect-square bg-blue-200 rounded-full absolute top-0 left-0 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  async function redirectUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const response = await fetch("/checkout/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        planId: urlParams.get("planId"),
+        email: urlParams.get("email"),
+      }),
+    });
+    const data = await response.json();
+    window.location.href = data.url;
+  }
+  redirectUrl();
+</script>

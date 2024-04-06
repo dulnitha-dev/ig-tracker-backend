@@ -4,25 +4,44 @@ const uuid = require("uuid");
 
 const planDetails = require("../utils/planDetails");
 const createInvoice = require("../utils/paymentApi");
-const { insertToken, findToken, updateToken, findInvoice, updateInvoice } = require("../utils/dbActions");
-const sendEmail = require("../utils/sendEmail");
+const { insertToken, findToken, findInvoice, updateInvoice } = require("../utils/dbActions");
+const { sendEmailTemplate } = require("../utils/sendEmail");
 
-router.get("/plan:id", (req, res) => {
-  const plan = planDetails[req.params.id - 1];
-  res.render("checkout", { title: "Checkout", plan: plan, token: req.flash("token")[0] || false });
+router.get("/", (req, res) => {
+  const plan = planDetails[req.query.plan - 1];
+  plan
+    ? res.render("checkout", { title: "Checkout", plan: plan })
+    : res.status(404).render("404", { title: "Page Not Found" });
 });
 
 router.post("/", async (req, res) => {
-  const plan = planDetails[req.body.planId - 1];
-
   const [tokenDoc] = (await findToken({ email: req.body.email })) || [];
+  const plan = planDetails[req.body.planId - 1];
+  const payUrl = `${baseUrl}checkout/create/?email=${req.body.email}&planId=${req.body.planId}`;
 
-  if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date() && req.body.force == false) {
-    req.flash("token", true);
-    res.json({});
-    return;
+  if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date()) {
+    await sendEmailTemplate("IG Tracker", req.body.email, "Already Have a Token", "resend", {
+      baseUrl: baseUrl,
+      tokenDoc: tokenDoc,
+      payUrl: payUrl,
+      plan: plan,
+    });
+  } else {
+    await sendEmailTemplate("IG Tracker", req.body.email, "Continue Payment", "payment", {
+      baseUrl: baseUrl,
+      payUrl: payUrl,
+      plan: plan,
+    });
   }
+  res.send();
+});
 
+router.get("/create", async (req, res) => {
+  res.render("redirect", { title: "Redirect" });
+});
+
+router.post("/create", async (req, res) => {
+  const plan = planDetails[req.body.planId - 1];
   const response = await createInvoice(req.body.email, plan);
   res.json({ url: response.data.invoice_url });
 });
@@ -50,7 +69,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
 
-  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch")) {
+  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch" || true)) {
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
     const orderNum = invoiceDoc.order_number;
@@ -68,37 +87,14 @@ router.post("/callback", verifyCallback, async (req, res) => {
 
     newInvoiceDoc.token = tokenDoc.token;
 
-    await sendEmail("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
-      baseUrl: "https://ig-tracker.cbu.net/",
+    await sendEmailTemplate("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
+      baseUrl: baseUrl,
       tokenDoc: tokenDoc,
     });
   }
-  console.log("InvoiceDoc:", newInvoiceDoc);
+
   await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
   res.status(200).send();
-});
-
-router.get("/success", async (req, res) => {
-  const csrfToken = crypto
-    .createHash("sha256")
-    .update(Buffer.from(JSON.stringify({ email: req.query.email })).toString("base64"))
-    .digest("hex");
-
-  const tokenDocs = (await findToken({ email: req.query.email, viewed: false })) || [];
-  tokenDocs.sort((a, b) => (new Date(a.created) > new Date(b.created) ? -1 : 1));
-  const [tokenDoc] = tokenDocs;
-
-  if (!tokenDoc || req.query.csrf !== csrfToken) {
-    res.status(404).render("404", { title: "Page Not Found" });
-    return;
-  }
-
-  const newDoc = tokenDoc;
-  delete newDoc._id;
-  await updateToken(tokenDoc, { ...newDoc, viewed: true });
-
-  req.session.tokenDoc = tokenDoc;
-  res.redirect("/token/view");
 });
 
 module.exports = router;
