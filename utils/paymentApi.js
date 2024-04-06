@@ -13,7 +13,7 @@ const createInvoice = async (email, plan) => {
     order_name: plan.name + " Plan",
     source_currency: currency,
     source_amount: plan.price,
-    callback_url: `${baseUrl}/checkout/callback?json=true`,
+    callback_url: `${baseUrl}checkout/callback?json=true`,
     success_callback_url: baseUrl,
     fail_callback_url: baseUrl,
     email: email,
