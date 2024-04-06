@@ -26,7 +26,7 @@ Chat intergration
 */
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Homepage" });
+  res.render("index", { title: "Homepage", plans: planDetails });
 });
 
 app.use("/checkout", checkout);

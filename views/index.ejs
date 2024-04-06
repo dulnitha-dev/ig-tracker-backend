@@ -265,10 +265,14 @@
         <a href="https://chromewebstore.google.com/" class="button mt-6 px-6 py-3 flex justify-center"> Choose Plan </a>
       </div>
 
-      <div class="px-5 py-4 dark:bg-slate-800/40 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="250ms">
-        <h3 class="mb-2 text-lg font-medium text-blue-600">Standard</h3>
-        <h2 class="mb-1 text-4xl font-semibold xl:text-[46px]">$4.99</h2>
-        <h5 class="mb-4 text-base text-gray-600 dark:text-gray-400 font-normal">Per Month</h5>
+      <% plans.forEach((plan, index) => { %>
+      <div
+        class="px-5 py-4 dark:bg-slate-800/40 wow fadeInUp"
+        data-wow-duration="1000ms"
+        data-wow-delay="<%= (index+1)*300 %>ms">
+        <h3 class="mb-2 text-lg font-medium text-blue-600"><%= plan.name %></h3>
+        <h2 class="mb-1 text-4xl font-semibold xl:text-[46px]"><%= plan.displayPrice %></h2>
+        <h5 class="mb-4 text-base text-gray-600 dark:text-gray-400 font-normal">Per <%= plan.period %></h5>
         <div class="mt-4">
           <ul class="pricing-list text-start flex flex-col gap-2">
             <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>unlimited followers / followings</li>
@@ -282,48 +286,9 @@
             <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Premium Support</li>
           </ul>
         </div>
-        <a href="/checkout/?plan=1" class="button mt-6 px-6 py-3 flex justify-center">Choose Plan</a>
+        <a href="/checkout/?plan=<%= index+1 %>" class="button mt-6 px-6 py-3 flex justify-center">Choose Plan</a>
       </div>
-
-      <div class="px-5 py-4 dark:bg-slate-800/40 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
-        <h3 class="mb-2 text-lg font-medium text-blue-600">Premium</h3>
-        <h2 class="mb-1 text-4xl font-semibold xl:text-[46px]">$9.99</h2>
-        <h5 class="mb-4 text-base text-gray-600 dark:text-gray-400 font-normal">Per 3 Month</h5>
-        <div class="mt-4">
-          <ul class="pricing-list text-start flex flex-col gap-2">
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>unlimited followers / followings</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Not Following Me Back</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>I'm Not Following Back</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Mutual Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Lost Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>New Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Followings</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Premium Support</li>
-          </ul>
-        </div>
-        <a href="/checkout/?plan=2" class="button mt-6 px-6 py-3 flex justify-center">Choose Plan</a>
-      </div>
-
-      <div class="px-5 py-4 dark:bg-slate-800/40 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="750ms">
-        <h3 class="mb-2 text-lg font-medium text-blue-600">Pro</h3>
-        <h2 class="mb-1 text-4xl font-semibold xl:text-[46px]">$19.99</h2>
-        <h5 class="mb-4 text-base text-gray-600 dark:text-gray-400 font-normal">Per Year</h5>
-        <div class="mt-4">
-          <ul class="pricing-list text-start flex flex-col gap-2">
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>unlimited followers / followings</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Not Following Me Back</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>I'm Not Following Back</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Mutual Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Lost Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>New Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Followers</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Followings</li>
-            <li class="flex gap-2"><i class="bi-check-lg text-blue-600"></i>Premium Support</li>
-          </ul>
-        </div>
-        <a href="/checkout/?plan=3" class="button mt-6 px-6 py-3 flex justify-center">Choose Plan</a>
-      </div>
+      <% }) %>
     </div>
   </div>
 </section>

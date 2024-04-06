@@ -64,10 +64,13 @@ const verifyCallback = (req, res, next) => {
 
 router.post("/callback", verifyCallback, async (req, res) => {
   const data = req.body;
+  console.log("Callback received", data);
 
   const [invoiceDoc] = (await findInvoice({ order_number: data.order_number })) || [];
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
+
+  console.log("Invoice", invoiceDoc);
 
   if (
     invoiceDoc &&
@@ -97,6 +100,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
     });
   }
 
+  console.log("Updated Invoice", newInvoiceDoc);
   await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
   res.status(200).send();
 });
