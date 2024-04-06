@@ -18,7 +18,6 @@ router.post("/create", async (req, res) => {
     email: email,
     created: new Date(),
     expire: date.setMonth(date.getMonth() + validMonths),
-    viewed: false,
     order_number: null,
   };
   await insertToken(tokenDoc);

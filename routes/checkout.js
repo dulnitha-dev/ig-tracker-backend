@@ -50,8 +50,6 @@ const verifyCallback = (req, res, next) => {
   const data = req.body;
   const secretKey = process.env.API_KEY;
 
-  console.log("Verifying callback", data);
-
   if (data && data.verify_hash) {
     const ordered = { ...data };
     delete ordered.verify_hash;
@@ -66,19 +64,12 @@ const verifyCallback = (req, res, next) => {
 
 router.post("/callback", verifyCallback, async (req, res) => {
   const data = req.body;
-  console.log("Callback received", data);
 
   const [invoiceDoc] = (await findInvoice({ order_number: data.order_number })) || [];
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
 
-  console.log("Invoice", invoiceDoc);
-
-  if (
-    invoiceDoc &&
-    !invoiceDoc.token &&
-    (data.status === "completed" || data.status === "mismatch" || data.status === "expired") // Remove
-  ) {
+  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch")) {
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
     const orderNum = invoiceDoc.order_number;
@@ -89,7 +80,6 @@ router.post("/callback", verifyCallback, async (req, res) => {
       email: email,
       created: new Date(),
       expire: date.setMonth(date.getMonth() + validMonths),
-      viewed: false,
       order_number: orderNum,
     };
     await insertToken(tokenDoc);
@@ -102,7 +92,6 @@ router.post("/callback", verifyCallback, async (req, res) => {
     });
   }
 
-  console.log("Updated Invoice", newInvoiceDoc);
   await updateInvoice({ order_number: data.order_number }, newInvoiceDoc);
   res.status(200).send();
 });
