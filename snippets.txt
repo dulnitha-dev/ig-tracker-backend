@@ -1,0 +1,10 @@
+app.get("/test/:template", async (req, res) => {
+  const ejs = require("ejs");
+  const template = await ejs.renderFile(`views/emails/${req.params.template}.ejs`, {
+    baseUrl: baseUrl,
+    payUrl: "",
+    tokenDoc: {},
+  });
+  const html = await ejs.renderFile("views/emails/layout.ejs", { body: template });
+  res.send(html);
+});

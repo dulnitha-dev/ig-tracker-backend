@@ -21,10 +21,6 @@ app.use(expressLayouts);
 app.set("layout", "./layout");
 app.set("view engine", "ejs");
 
-/*
-Chat intergration
-*/
-
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage", plans: planDetails });
 });
