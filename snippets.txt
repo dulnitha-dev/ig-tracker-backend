@@ -4,6 +4,7 @@ app.get("/test/:template", async (req, res) => {
     baseUrl: baseUrl,
     payUrl: "",
     tokenDoc: {},
+    plan: {},
   });
   const html = await ejs.renderFile("views/emails/layout.ejs", { body: template });
   res.send(html);

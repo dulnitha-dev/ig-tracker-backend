@@ -1,4 +1,4 @@
-<section class="m-0 p-4 h-screen bg-blue-600" id="checkout">
+<section class="m-0 p-2 sm:p-4 h-screen bg-blue-600" id="checkout">
   <div class="container h-full">
     <a href="/" class="flex items-center gap-1 absolute top-6 left-1/2 -translate-x-1/2">
       <img
@@ -10,21 +10,21 @@
     </a>
 
     <div class="flex items-center justify-center w-full h-full">
-      <div class="p-10 w-full max-w-xl text-center bg-white dark:bg-slate-900">
+      <div class="px-4 py-10 sm:px-6 w-full max-w-xl text-center bg-white dark:bg-slate-900">
         <span hidden id="plan-id"><%= plan.id %></span>
 
-        <h1 class="mt-6 mb-1 text-2xl font-semibold"><%= plan.name %> Plan</h1>
+        <h1 class="mb-1 text-2xl font-semibold"><%= plan.name %> Plan</h1>
         <h2 class="text-xl font-normal">
           <%= plan.displayPrice %>
           <span>/<%= plan.period %></span>
         </h2>
-        <form class="my-6" id="form">
+        <form class="mt-6" id="form">
           <div class="mb-2 w-full">
             <input type="email" class="w-full" id="email" placeholder="Enter your email..." />
           </div>
           <button class="button bg-emerald-500 w-full">Checkout</button>
         </form>
-        <p class="text-base text-green-500" id="msg">Payment link has been sent to your email.</p>
+        <p class="text-base text-green-500 mt-6" id="msg">Payment link has been sent to your email.</p>
       </div>
     </div>
   </div>
