@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const checkout = require("./routes/checkout");
 const token = require("./routes/token");
+const image = require("./routes/image");
 const planDetails = require("./utils/planDetails");
 const { connectDB } = require("./utils/dbActions");
 
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 app.use("/checkout", checkout);
 
 app.use("/token", token);
+
+app.use("/image", image);
 
 app.get("/plans", (req, res) => {
   res.json(planDetails);
