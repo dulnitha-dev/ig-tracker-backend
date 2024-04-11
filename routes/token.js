@@ -32,11 +32,9 @@ router.post("/create", async (req, res) => {
 router.post("/verify", async (req, res) => {
   const [tokenDoc] = (await findToken({ token: req.body.token })) || [];
   if (tokenDoc && new Date(tokenDoc.expire) > new Date()) {
-    res.json({ valid: true, message: "Success" });
-  } else if (tokenDoc) {
-    res.json({ valid: false, message: "Token has expired" });
+    res.json({ valid: true });
   } else {
-    res.json({ valid: false, message: "Invalid token" });
+    res.json({ valid: false });
   }
 });
 
