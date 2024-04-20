@@ -15,11 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("json spaces", 4);
 
-app.use(express.static(__dirname + "/public"));
-
 app.use(expressLayouts);
 app.set("layout", "./layout");
+
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage", plans: planDetails });
