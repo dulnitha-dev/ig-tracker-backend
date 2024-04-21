@@ -9,7 +9,7 @@ const { connectDB } = require("./utils/dbActions");
 
 const app = express();
 
-global.baseUrl = "https://ig-tracker.cbu.net/";
+global.baseUrl = "https://ig-tracker.fpr.net/";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,6 +24,10 @@ app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage", plans: planDetails });
+});
+
+app.get("/feedback", (req, res) => {
+  res.redirect("https://forms.gle/DzY9Ne8AgWqiLWPz5");
 });
 
 app.use("/checkout", checkout);
