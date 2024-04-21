@@ -22,17 +22,9 @@ const sendEmail = async (senderName, recipient, title, template, options = {}) =
     html: html,
   };
 
-  const result = {};
-
   transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      result = error;
-    } else {
-      console.log(`Email sent to ${recipient}: ${info.response}`);
-      result = info;
-    }
-    return result;
+    if (error) console.log(error);
+    else console.log(`Email sent to ${recipient}: ${info.response}`);
   });
 };
 

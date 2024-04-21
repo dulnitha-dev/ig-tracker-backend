@@ -20,20 +20,20 @@ router.post("/", async (req, res) => {
   const payUrl = `${baseUrl}checkout/create/?email=${req.body.email}&planId=${req.body.planId}`;
 
   if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date()) {
-    const result = await sendEmail("IG Tracker", req.body.email, "Already Have a Token", "resend", {
+    await sendEmail("IG Tracker", req.body.email, "Already Have a Token", "resend", {
       baseUrl: baseUrl,
       tokenDoc: tokenDoc,
       payUrl: payUrl,
       plan: plan,
     });
-    res.json(result);
+    res.json({ tokenDoc: tokenDoc, plan: plan });
   } else {
-    const result = await sendEmail("IG Tracker", req.body.email, "Continue Payment", "payment", {
+    await sendEmail("IG Tracker", req.body.email, "Continue Payment", "payment", {
       baseUrl: baseUrl,
       payUrl: payUrl,
       plan: plan,
     });
-    res.json(result);
+    res.json({ tokenDoc: "no token", plan: plan });
   }
 });
 
