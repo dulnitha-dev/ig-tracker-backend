@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmailTemplate = async (senderName, recipient, title, template, options = {}) => {
+const sendEmail = async (senderName, recipient, title, template, options = {}) => {
   const body = await ejs.renderFile(__dirname + "/../views/emails/" + template + ".ejs", options);
   const html = await ejs.renderFile(__dirname + "/../views/emails/layout.ejs", { ...options, body: body });
   const mailOptions = {
@@ -22,24 +22,18 @@ const sendEmailTemplate = async (senderName, recipient, title, template, options
     html: html,
   };
 
+  const result = {};
+
   transporter.sendMail(mailOptions, (error, info) => {
-    if (error) console.log(error);
-    else console.log(`Email sent to ${recipient}: ${info.response}`);
+    if (error) {
+      console.log(error);
+      result = error;
+    } else {
+      console.log(`Email sent to ${recipient}: ${info.response}`);
+      result = info;
+    }
+    return result;
   });
 };
 
-const sendEmail = async (senderName, recipient, title, body) => {
-  const mailOptions = {
-    from: `${senderName} <${process.env.MAIL_USER}>`,
-    to: recipient,
-    subject: title,
-    text: body,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) console.log(error);
-    else console.log(`Email sent to ${recipient}: ${info.response}`);
-  });
-};
-
-module.exports = { sendEmail, sendEmailTemplate };
+module.exports = { sendEmail };

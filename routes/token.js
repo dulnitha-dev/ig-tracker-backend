@@ -2,7 +2,7 @@ const router = require("express").Router();
 const uuid = require("uuid");
 
 const { insertToken, findToken } = require("../utils/dbActions");
-const { sendEmailTemplate } = require("../utils/sendEmail");
+const { sendEmail } = require("../utils/sendEmail");
 
 router.post("/create", async (req, res) => {
   if (req.body.key !== process.env.SECRET_KEY) {
@@ -22,7 +22,7 @@ router.post("/create", async (req, res) => {
   };
   await insertToken(tokenDoc);
 
-  await sendEmailTemplate("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
+  await sendEmail("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
     baseUrl: baseUrl,
     tokenDoc: tokenDoc,
   });
