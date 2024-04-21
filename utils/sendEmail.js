@@ -26,7 +26,7 @@ const sendEmail = async (senderName, recipient, title, template, options = {}) =
     if (error) console.log(error);
     else console.log(`Email sent to ${recipient}: ${info.response}`);
   });
-  return mailOptions;
+  return { mailOptions: mailOptions, transporter: transporter };
 };
 
 module.exports = { sendEmail };
