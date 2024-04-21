@@ -26,7 +26,18 @@ const sendEmail = async (senderName, recipient, title, template, options = {}) =
     if (error) console.log(error);
     else console.log(`Email sent to ${recipient}: ${info.response}`);
   });
-  return { mailOptions: mailOptions, transporter: transporter };
+  return {
+    mailOptions: mailOptions,
+    transporter: {
+      host: "smtp.zoho.com",
+      secure: true,
+      port: 465,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    },
+  };
 };
 
 module.exports = { sendEmail };
