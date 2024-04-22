@@ -1,5 +1,6 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const expressIp = require("express-ip");
 require("dotenv").config();
 
 const checkout = require("./routes/checkout");
@@ -22,6 +23,8 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
+app.use(expressIp().getIpInfoMiddleware);
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Homepage", plans: planDetails });
 });
@@ -35,7 +38,7 @@ app.use("/checkout", checkout);
 app.use("/token", token);
 
 app.get("/plans", (req, res) => {
-  res.json({ reqIp: req.ip, reqIps: req.ips });
+  res.json(req.ipInfo);
 });
 
 app.use((req, res, next) => {
