@@ -34,7 +34,7 @@ const sendEmailTemplate = async (senderName, recipient, title, template, options
         console.log(`Sent ${template} email to ${recipient}: ${info.response}`);
         await global.logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
       }
-      global.logtail.flush();
+      await global.logtail.flush();
     });
   });
 };
@@ -59,7 +59,7 @@ const sendEmail = async (senderName, recipient, title, body) => {
         console.log(`Sent email to ${recipient}: ${info.response}`);
         await global.logtail.info(`Sent email to ${recipient}: ${info.response}`);
       }
-      global.logtail.flush();
+      await global.logtail.flush();
     });
   });
 };
