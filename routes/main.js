@@ -3,7 +3,6 @@ const router = require("express").Router();
 const checkout = require("./checkout");
 const token = require("./token");
 const planDetails = require("../utils/planDetails");
-const { sendEmail } = require("../utils/sendEmail");
 
 router.get("/", (req, res) => {
   res.render("index", { title: "Homepage", plans: planDetails });
@@ -19,7 +18,8 @@ router.use("/token", token);
 
 router.get("/plans", async (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.headers["x-real-ip"];
-  if (ip) await sendEmail("IG Tracker", "dulnitha.dev@gmail.com", "Got Request Ip", `RequestIp: ${ip}`);
+  global.logtail.info(`Received request from: ${ip}`);
+  global.logtail.flush();
   res.json(planDetails);
 });
 

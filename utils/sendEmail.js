@@ -2,9 +2,6 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 require("dotenv").config();
 
-const { Logtail } = require("@logtail/node");
-const logtail = new Logtail("sRBk6hMoi8YQBW6CKanunY2Z");
-
 const settings = {
   host: "smtp.zoho.com",
   secure: true,
@@ -30,14 +27,14 @@ const sendEmailTemplate = async (senderName, recipient, title, template, options
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error(error);
-        logtail.error(error.message);
+        global.logtail.error(error.message);
         resolve(false);
       } else {
         console.log(`Sent ${template} email to ${recipient}: ${info.response}`);
-        logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
+        global.logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
         resolve(true);
       }
-      logtail.flush();
+      global.logtail.flush();
     });
   });
 };
@@ -55,14 +52,14 @@ const sendEmail = async (senderName, recipient, title, body) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error(error);
-        logtail.error(error.message);
+        global.logtail.error(error.message);
         resolve(false);
       } else {
         console.log(`Sent email to ${recipient}: ${info.response}`);
-        logtail.info(`Sent email to ${recipient}: ${info.response}`);
+        global.logtail.info(`Sent email to ${recipient}: ${info.response}`);
         resolve(true);
       }
-      logtail.flush();
+      global.logtail.flush();
     });
   });
 };
