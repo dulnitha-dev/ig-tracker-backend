@@ -2,6 +2,9 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
 
+const { Logtail } = require("@logtail/node");
+const logtail = new Logtail("sRBk6hMoi8YQBW6CKanunY2Z");
+
 const checkout = require("./routes/checkout");
 const token = require("./routes/token");
 const planDetails = require("./utils/planDetails");
@@ -35,6 +38,7 @@ app.use("/checkout", checkout);
 app.use("/token", token);
 
 app.get("/plans", (req, res) => {
+  logtail.info({ reqIp: req.ip, reqIps: req.ips });
   res.json(planDetails);
 });
 
