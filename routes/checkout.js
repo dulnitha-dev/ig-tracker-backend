@@ -69,8 +69,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
   const newInvoiceDoc = { ...invoiceDoc, ...data };
   delete newInvoiceDoc._id;
 
-  // Remove Testing
-  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch" || true)) {
+  if (invoiceDoc && !invoiceDoc.token && (data.status === "completed" || data.status === "mismatch")) {
     const validMonths = invoiceDoc.plan.validMonths;
     const email = invoiceDoc.email;
     const orderNum = invoiceDoc.order_number;

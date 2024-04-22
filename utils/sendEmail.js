@@ -33,8 +33,8 @@ const sendEmail = async (senderName, recipient, title, template, options = {}) =
         logtail.error(error.message);
         resolve(false);
       } else {
-        console.log(`Email sent to ${recipient}: ${info.response}`);
-        logtail.info(`Email sent to ${recipient}: ${info.response}`);
+        console.log(`Sent ${template} email to ${recipient}: ${info.response}`);
+        logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
         resolve(true);
       }
       logtail.flush();
