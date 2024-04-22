@@ -33,6 +33,7 @@ router.post("/", async (req, res) => {
       plan: plan,
     });
   }
+  res.json(payUrl);
 });
 
 router.get("/create", async (req, res) => {
