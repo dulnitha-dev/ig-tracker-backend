@@ -49,14 +49,14 @@ const sendEmail = async (senderName, recipient, title, body) => {
       text: body,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
         console.error(error);
-        global.logtail.error(error.message);
+        await global.logtail.error(error.message);
         resolve(false);
       } else {
         console.log(`Sent email to ${recipient}: ${info.response}`);
-        global.logtail.info(`Sent email to ${recipient}: ${info.response}`);
+        await global.logtail.info(`Sent email to ${recipient}: ${info.response}`);
         resolve(true);
       }
       global.logtail.flush();
