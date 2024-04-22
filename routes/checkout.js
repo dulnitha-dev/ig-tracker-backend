@@ -33,7 +33,6 @@ router.post("/", async (req, res) => {
       plan: plan,
     });
   }
-  res.send();
 });
 
 router.get("/create", async (req, res) => {
