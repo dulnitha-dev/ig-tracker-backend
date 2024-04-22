@@ -5,7 +5,7 @@ const uuid = require("uuid");
 const planDetails = require("../utils/planDetails");
 const createInvoice = require("../utils/paymentApi");
 const { insertToken, findToken, findInvoice, updateInvoice } = require("../utils/dbActions");
-const { sendEmail } = require("../utils/sendEmail");
+const { sendEmailTemplate } = require("../utils/sendEmail");
 
 router.get("/", (req, res) => {
   const plan = planDetails[req.query.plan - 1];
@@ -20,14 +20,14 @@ router.post("/", async (req, res) => {
   const payUrl = `${baseUrl}checkout/create/?email=${req.body.email}&planId=${req.body.planId}`;
 
   if (tokenDoc && tokenDoc.token && new Date(tokenDoc.expire) > new Date()) {
-    await sendEmail("IG Tracker", req.body.email, "Already Have a Token", "resend", {
+    await sendEmailTemplate("IG Tracker", req.body.email, "Already Have a Token", "resend", {
       baseUrl: baseUrl,
       tokenDoc: tokenDoc,
       payUrl: payUrl,
       plan: plan,
     });
   } else {
-    await sendEmail("IG Tracker", req.body.email, "Continue Payment", "payment", {
+    await sendEmailTemplate("IG Tracker", req.body.email, "Continue Payment", "payment", {
       baseUrl: baseUrl,
       payUrl: payUrl,
       plan: plan,
@@ -86,7 +86,7 @@ router.post("/callback", verifyCallback, async (req, res) => {
 
     newInvoiceDoc.token = tokenDoc.token;
 
-    await sendEmail("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
+    await sendEmailTemplate("IG Tracker", tokenDoc.email, "Payment Successfull", "success", {
       baseUrl: baseUrl,
       tokenDoc: tokenDoc,
     });
