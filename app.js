@@ -9,7 +9,7 @@ const { connectDB } = require("./utils/dbActions");
 const app = express();
 
 global.baseUrl = "https://ig-tracker.fpr.net/";
-global.logtail = new Logtail("sRBk6hMoi8YQBW6CKanunY2Z");
+global.logtail = new Logtail(process.env.LOGTAIL_TOKEN);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
