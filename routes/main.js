@@ -17,9 +17,9 @@ router.use("/checkout", checkout);
 router.use("/token", token);
 
 router.get("/plans", async (req, res) => {
-  const ip = (req.headers["x-forwarded-for"] || req.headers["x-real-ip"]).split(",")[0];
-  await global.logtail.info(`Received request from: ${ip}`);
-  await global.logtail.flush();
+  const ip = (req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "").split(",")[0];
+  await logtail.info(`Received request from: ${ip}`);
+  await logtail.flush();
   res.json(planDetails);
 });
 

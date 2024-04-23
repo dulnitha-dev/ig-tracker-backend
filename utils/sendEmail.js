@@ -27,13 +27,15 @@ const sendEmailTemplate = async (senderName, recipient, title, template, options
     transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
         console.error(error);
-        await global.logtail.error(error.message);
+        await logtail.error(error.message);
+        await logtail.flush();
+        resolve(false);
       } else {
         console.log(`Sent ${template} email to ${recipient}: ${info.response}`);
-        await global.logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
+        await logtail.info(`Sent ${template} email to ${recipient}: ${info.response}`);
+        await logtail.flush();
+        resolve(true);
       }
-      await global.logtail.flush();
-      resolve();
     });
   });
 };
@@ -51,13 +53,15 @@ const sendEmail = async (senderName, recipient, title, body) => {
     transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
         console.error(error);
-        await global.logtail.error(error.message);
+        await logtail.error(error.message);
+        await logtail.flush();
+        resolve(false);
       } else {
         console.log(`Sent email to ${recipient}: ${info.response}`);
-        await global.logtail.info(`Sent email to ${recipient}: ${info.response}`);
+        await logtail.info(`Sent email to ${recipient}: ${info.response}`);
+        await logtail.flush();
+        resolve(true);
       }
-      await global.logtail.flush();
-      resolve();
     });
   });
 };

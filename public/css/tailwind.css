@@ -16,8 +16,8 @@
 
 @layer components {
   .button {
-    @apply flex items-center justify-center gap-2 px-6 py-3 text-base font-medium text-white bg-blue-600 hover:bg-gray-600 
-      rounded-sm transition duration-300 select-none;
+    @apply flex items-center justify-center gap-2 px-6 py-3 text-base font-medium text-white bg-blue-600 hover:bg-gray-600
+    rounded-sm transition duration-300 select-none disabled:bg-gray-600 disabled:cursor-not-allowed;
   }
 }
 
@@ -51,4 +51,11 @@ header .button {
 }
 #hero .button:last-child {
   @apply text-white bg-blue-200/30 hover:bg-white hover:text-black w-44 h-14;
+}
+
+.success {
+  @apply text-green-500;
+}
+.error {
+  @apply text-red-500;
 }
