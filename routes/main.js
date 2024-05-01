@@ -6,7 +6,7 @@ const planDetails = require("../utils/planDetails");
 
 const logRequest = async (req) => {
   const ip = (req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "").split(",")[0];
-  await logtail.info(`Requested ${req} from: ${ip}`);
+  await logtail.info(`Requested ${req.path} from: ${ip}`);
   await logtail.flush();
   console.log(`Requested ${req.path} from: ${ip}`);
 };
